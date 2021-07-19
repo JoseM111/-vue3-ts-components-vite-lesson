@@ -18,7 +18,12 @@ export default defineComponent({
   }),
   // Component options methods
   methods: {
-    updateAge(num: number) {
+    updateAge(num: number): void {
+      //☰☰☰☰☰☰☰☰☰☰
+      this.age += num
+    },
+    //..........
+    updateAgeCallback(num: number): void {
       //☰☰☰☰☰☰☰☰☰☰
       this.age += num
     }
@@ -38,6 +43,7 @@ export default defineComponent({
     <User :age="age"
           :name="name"
           @ageChange="updateAge"
+          :ageChangeFn="updateAgeCallback"
     />
     
   </div>

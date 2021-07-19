@@ -2,7 +2,7 @@
 
 // 🌀🌀💻 SCRIPT 💻🌀🌀
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { UserType } from "@/components/user/user.type"
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 export default defineComponent({
@@ -15,13 +15,15 @@ export default defineComponent({
       required: true
     },
     name: {
-      type: String as () => UserType['name'],
+      type: String as PropType<UserType['name']>,
       required: true
-    }
+    },
+    ageChangeFn: Function // or Function:<-- Works too
   },
   // Component options computed
   computed: {
-    // Not directly updating the value. Creating a copy
+    // Not directly updating the value.
+    // Creating a copy then updating that
     ageDoubled(): number {
       return this.age * 2
     }
@@ -53,9 +55,18 @@ export default defineComponent({
     <b>Age doubled ( {{ ageDoubled }} )</b>
   </h1>
   
-  <button @click="updateAge">
-    Update Age
-  </button>
+  <div class="btnContainer">
+    <!-- $emit: events. does get logged in browser debugger -->
+    <button @click="updateAge">
+      Update age with [EVENT]
+    </button>
+    
+    <!-- callbacks. does not get logged in browser debugger -->
+    <button @click="ageChangeFn(3)">
+      Update age with [CALLBACK]
+    </button>
+  </div>
+  
 </template>
 <!-- 🌀🌀💻================================================ -->
 
@@ -66,24 +77,29 @@ h1 {
   color: mediumpurple;
 }
 
-button {
-  font-size: 30px;
-  border-radius: 12px;
-  padding: 10px 20px;
-  background: dodgerblue;
-  color: white;
-  cursor: pointer;
-  
-  &:hover {
-    transition: all 0.45s ease-in-out;
-    opacity: 0.85;
-    background: mediumvioletred;
-    font-family: "Nosifer", sans-serif;
+.btnContainer {
+  // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
+  button {
+    margin: 0 20px;
+    font-size: 30px;
+    border-radius: 12px;
+    padding: 10px 20px;
+    background: dodgerblue;
+    color: white;
+    cursor: pointer;
+    
+    &:hover {
+      transition: all 0.45s ease-in-out;
+      opacity: 0.85;
+      background: mediumvioletred;
+      font-family: "Nosifer", sans-serif;
+    }
+    
+    &:active {
+      opacity: 0.10
+    }
   }
   
-  &:active {
-    opacity: 0.10
-  }
 }
 </style>
 <!-- 🌀🌀💻================================================ -->
